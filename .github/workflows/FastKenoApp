@@ -2,7 +2,7 @@ name: Build FastKeno APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Extract Zip File
         run: |
@@ -30,11 +31,11 @@ jobs:
       - name: Build with Gradle
         run: |
           BUILD_DIR=$(find . -name "gradlew" -exec dirname {} \;)
-          cd $BUILD_DIR
+          cd "$BUILD_DIR"
           ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: '**/app/build/outputs/apk/debug/*.apk'
+          path: '**/build/outputs/apk/debug/*.apk'
