@@ -16,7 +16,7 @@ jobs:
       - name: Extract Zip File
         run: |
           unzip -o "FastKenoApp-Android (1).zip"
-          ls -la
+          ls -R
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -30,8 +30,9 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          BUILD_DIR=$(find . -name "gradlew" -exec dirname {} \;)
-          cd "$BUILD_DIR"
+          GRADLEW_PATH=$(find . -name "gradlew" | head -n 1)
+          PROJECT_DIR=$(dirname "$GRADLEW_PATH")
+          cd "$PROJECT_DIR"
           ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
