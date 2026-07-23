@@ -25,11 +25,11 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: |
-          find . -name "gradlew" -exec chmod +x {} \;
+          find extracted_app -name "gradlew" -exec chmod +x {} \;
 
       - name: Build with Gradle
         run: |
-          GRADLEW_PATH=$(find . -name "gradlew" | head -n 1)
+          GRADLEW_PATH=$(find extracted_app -name "gradlew" | head -n 1)
           PROJECT_DIR=$(dirname "$GRADLEW_PATH")
           cd "$PROJECT_DIR"
           ./gradlew assembleDebug
